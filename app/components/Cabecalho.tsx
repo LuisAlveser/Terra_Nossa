@@ -1,5 +1,9 @@
+
+
 import {Button} from"@/components/ui/button"
 import Image from 'next/image'
+import Link from 'next/link'
+
 export default function Cabecalho(){
     return(
      <header className=" h-15   items-center bg-green-800 flex flex-row  justify-between px-4 md:px-10 ">
@@ -15,10 +19,15 @@ export default function Cabecalho(){
     <h1 className="text-3xl  pt-2 font-extrabold text-white">Terra Nossa </h1>
  </div>
     <div className=" items-center   bg-green-800 justify-between flex flex-row gap-10 ">
+        <Link href={"/cadastro"}>
     <Button className="w-20 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white font-extrabold text-green-800  ">
-      Cadastro  </Button>
-      <Button className="w-20 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold ">
+      Cadastro </Button>
+      </Link>
+
+      <Link href={"/login"}>
+     <Button className="w-20 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold ">
       Login  </Button>
+      </Link>
     </div>
      </header>
     );
