@@ -12,7 +12,7 @@ import Link from 'next/link'
 export  default function Login() {
   return (
     <div className="flex flex-col justify-center pt-10">
-    <Card className=" justify-center mx-auto w-100 h-100 max-w-md bg-green-800 border-none flex flex-col items-center p-4 ">
+    <Card className=" justify-center mx-auto w-100  max-w-md bg-green-800 border-none flex flex-col items-center p-4 ">
       <form className="flex flex-col gap-5">
         <CardTitle className="flex justify-end">
         
