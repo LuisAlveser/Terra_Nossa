@@ -51,7 +51,7 @@ catch(error){
 
 }
 
-export async function name(data:any) {
+export async function login(data:any) {
      
   
   const resposta=await prisma.user.findFirst({where:{email:data.email}})
@@ -73,11 +73,12 @@ export async function name(data:any) {
     })
     
         return{
+          sucesso:true,
       usuario:{
         nome:resposta.nome,
         email:resposta.email
       },
-      sucesso:true,
+      
     }
 }
 }

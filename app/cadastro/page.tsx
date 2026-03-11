@@ -17,10 +17,10 @@ import {cadastrarUsuario}from "@/app/(rotas)/RotaUsuario"
 import { useTransition } from "react";
 import { useRouter } from 'next/navigation';
 
-import {  toast } from "sonner";
+import { toast } from "sonner";
 
 export  default function Cadastro() {
-  
+
   const [carregando,start]=useTransition()
   const router = useRouter()
 
