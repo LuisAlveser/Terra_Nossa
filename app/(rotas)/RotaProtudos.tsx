@@ -40,4 +40,21 @@ export async function adicionarProduto(data:any) {
         }
     }
 }
-
+ export async function buscarProdutos() {
+     try {
+        const produtos=await prisma.produto.findMany();
+        if(produtos){
+            return{
+            produtos,
+        }
+    }
+     } catch (error) {
+        return{
+            sucesso:false,
+            error:error
+        }
+     }
+   
+    
+    
+}
