@@ -19,10 +19,11 @@ import { useRouter } from 'next/navigation';
 
 import { toast } from "sonner";
 
-export  default function Cadastro() {
 
+export  default  function Cadastro() {
+   const router = useRouter()
   const [carregando,start]=useTransition()
-  const router = useRouter()
+ 
 
  const {register,handleSubmit,formState:{errors}} =useForm({
   resolver: zodResolver(cadastroShema),

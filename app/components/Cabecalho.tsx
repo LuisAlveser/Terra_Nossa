@@ -33,7 +33,15 @@ export default async function Cabecalho(){
  {   token?<div className=" items-center   bg-green-800 justify-between flex flex-row gap-4 ">
        <CircleUserRound className="text-white h-10 w-8"/>
        <h1 className="text-white font-extrabold text-2xl">{usuario?.nome}</h1>
+       
+       <Link href={"/produtor"}>
         <Button className="w-30 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white font-extrabold text-green-800 ">Venda aqui</Button>
+        </Link>
+
+        <Link href={"/produtos"}>
+        <Button className="w-35 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white font-extrabold text-green-800 ">Adicione Produtos</Button>
+        </Link>
+
         <Button className="w-20 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white font-extrabold text-green-800 "onClick={sair} >Sair</Button>
 
  </div>:(

@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import jwt from"jsonwebtoken"
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+
 export async function cadastrarUsuario(data:any) {
 
   try{

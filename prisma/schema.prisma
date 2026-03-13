@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma/client"
+  output   = "../app/generated/prisma/client/client.ts" 
 }
 
 datasource db {
@@ -8,47 +8,43 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  nome  String
-  email String
-  senha String
+  id       Int       @id @default(autoincrement())
+  nome     String
+  email    String
+  senha    String
   produtor Produtor?
 }
-model Produtor {
-  id        Int       @id @default(autoincrement())
-  bio       String    @db.Text
-  contato   String   
-  endereco  String
-  estado    String
-  cidade    String
-  
-  
-  user      User      @relation(fields: [user_id], references: [id],onDelete: Cascade)
-  user_id   Int       @unique
 
-  produtos  Produto[]
+model Produtor {
+  id       Int       @id @default(autoincrement())
+  bio      String
+  contato  String
+  endereco String
+  estado   String
+  cidade   String
+  user_id  Int       @unique
+  produtos Produto[]
+  user     User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Produto {
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   titulo      String
-  descricao   String   @db.Text
-  preco       Decimal  @db.Decimal(10, 2)
-  unit        String  
-  categoria   String   
-  imageUrl    String?  
-  avaliacao   Avaliacao[]
- 
-  produtor    Produtor @relation(fields: [id_produtor], references: [id],onDelete: Cascade)
+  descricao   String
+  preco       Decimal     @db.Decimal(10, 2)
+  unit        String 
+  categoria   String
+  imageUrl    String?
   id_produtor Int
-  
-  createdAt   DateTime @default(now())
+  createdAt   DateTime    @default(now())
+  avaliacao   Avaliacao[]
+  produtor    Produtor    @relation(fields: [id_produtor], references: [id], onDelete: Cascade)
 }
-model Avaliacao{
-    id          Int      @id @default(autoincrement())
-    comentario  String
-    nota        Int
-    produto     Produto  @relation(fields: [id_produto],references: [id],onDelete: Cascade)
-    id_produto  Int
-    
+
+model Avaliacao {
+  id         Int     @id @default(autoincrement())
+  comentario String
+  nota       Int
+  id_produto Int
+  produto    Produto @relation(fields: [id_produto], references: [id], onDelete: Cascade)
 }

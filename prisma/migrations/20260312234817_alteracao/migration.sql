@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Produto" ALTER COLUMN "unit" SET DATA TYPE TEXT;
