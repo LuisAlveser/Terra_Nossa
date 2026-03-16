@@ -18,11 +18,17 @@ import { useTransition } from "react";
 import { useRouter } from 'next/navigation';
 import { toast } from "sonner";
 import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+import { supabase } from "@/lib/supabase"; 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-import jwt from 'jsonwebtoken';
 
 export  default  function Produtos() {
   const router = useRouter()
@@ -43,9 +49,7 @@ export  default  function Produtos() {
  const cadastro=(data:z.infer< typeof produtoShema>)=>{
   start(async ()=>{
         try{
-        const token =localStorage.getItem("token")
-        console.log(token)
-        const usuario= jwt.decode(token as string) as{id : number}
+       
         
        const arquivo = data.imageUrl as File;
      
@@ -68,14 +72,14 @@ export  default  function Produtos() {
       const { data: { publicUrl } } = supabase.storage
         .from('produtos')
         .getPublicUrl(nomeArquivo);
-      const dadosCompletos={...data,imageUrl: publicUrl,user_id: usuario.id}
+      const dadosCompletos={...data,imageUrl: publicUrl}
       console.log(dadosCompletos)
       const resposta = await adicionarProduto(dadosCompletos);
         
          if(resposta?.sucesso){
              toast.success("Produto adicionado com sucesso")
-             router.push("/dashbord")
-         
+             router.push("/dashboard")
+          
         }else{
            toast.error(resposta?.error||"Erro ao adiiconar produto")
          }
@@ -108,9 +112,22 @@ export  default  function Produtos() {
            <Input className="w-70 placeholder:text-white text-white" placeholder="Preço" type="number"{...register("preco")}/>
             {errors.preco&&<span className="text-red-700 flex ">{errors.preco.message}</span>} 
 
-           <Input className="w-70 placeholder:text-white text-white" placeholder="Unidade" type="text"{...register("unit")}/>
-            {errors.unit&&<span className="text-red-700 flex ">{errors.unit.message}</span>} 
-
+          
+               <Select  onValueChange={(value)=>setValue("unit",value)}>
+      <SelectTrigger className="w-70    text-white [&>span]:text-white ">
+        <SelectValue  placeholder="Selecione a unidade"  />
+      </SelectTrigger >
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel className="text-green-800">Unidades</SelectLabel>
+          <SelectItem value="UN">Unidade</SelectItem>
+          <SelectItem value="CX (Caixa)">Caixa</SelectItem>
+          <SelectItem value="KG (Quilograma) ">KG (Quilograma)</SelectItem>
+          <SelectItem value="LT(Litro) ">LT(LT)</SelectItem>
+          <SelectItem value="DZ (Dúzia)">DZ (Dúzia)</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
              <Input className="w-70 placeholder:text-white text-white" placeholder="Categoria" type="text"{...register("categoria")}/>
             {errors.categoria&&<span className="text-red-700 flex ">{errors.categoria.message}</span>} 
             

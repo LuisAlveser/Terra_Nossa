@@ -1,4 +1,4 @@
-
+'use client'
 import {
   Card,
   CardDescription,
@@ -7,9 +7,26 @@ import {
 } from "@/components/ui/card"
 import Image from 'next/image'
 import {Button} from"@/components/ui/button"
+import { CircleX,Pencil } from "lucide-react";
+import {excluirProduto}from "@/app/(rotas)/RotaProtudos"
+import { toast } from "sonner";
+import { useRouter } from 'next/navigation';
 
-export default function ProdutosCard({produto}){
-  
+export default function ProdutosCardEdicao({produto}){
+    const router = useRouter()
+    const excluir=async (id:number)=>{
+        try {
+            const deletar=await excluirProduto(id)
+          
+            if(deletar.sucesso){
+                toast.success("Produto excluido com sucesso")
+                router.push("/dashboard?filtro=meus")
+            }
+
+        } catch (error) {
+            toast.error("Erro em excluir produto")
+        }
+    }
      return (
         
      <>
@@ -17,7 +34,14 @@ export default function ProdutosCard({produto}){
         <div className="flex justify-center pt-2 flex-col">      
           <CardHeader className="w-full justify-center items-center pt-2">
             <CardTitle className="text-center text-white text-xl md:text-1xl font-extrabold whitespace-nowrap " >
-                {produto.titulo}</CardTitle>
+               <div className="flex justify-between flex-row">
+               
+                 <Pencil  className="cursor-pointer text-white"/>
+                   <CircleX className=" cursor-pointer text-red-700"  onClick={() => excluir(produto.id)} />
+                 </div>
+               {produto.titulo}
+                
+                </CardTitle>
                 <div className="flex justify-center w-full h-45 rounded-3xl bg-white overflow-hidden relative">
                 <Image 
               src={`https://vnzgvgqnhatawhbtexvh.supabase.co/storage/v1/object/public/produtos/${produto.imageUrl}`}

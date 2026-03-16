@@ -40,7 +40,7 @@ export  default  function Cadastro() {
          
          if(resposta?.sucesso){
              toast.success("Cadastro realizado com sucesso")
-             router.push("/dashbord")
+             router.push("/dashboard")
          
         }else{
            toast.error(resposta?.error||"Erro ao cadastrar")

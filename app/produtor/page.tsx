@@ -39,18 +39,15 @@ export  default  function Produtor() {
  })
  const cadastro=(data:z.infer< typeof produtorShema>)=>{
   start(async ()=>{
-        const token =localStorage.getItem("token")
-        console.log(token)
-        const usuario= jwt.decode(token as string) as{id : number}
-        console.log(usuario)
-         const   verifica=await  verificaProdutor(usuario.id)
+  
+      
+         const   verifica=await  verificaProdutor()
         if(verifica?.sucesso){
              toast.error(verifica?.error||"Você já é um produtor")
         }
 
-         const dadosCompletos={...data,user_id:usuario.id}
-         console.log(dadosCompletos)
-       const resposta =await  cadastrarProdutor(dadosCompletos)
+        
+       const resposta =await  cadastrarProdutor(data)
        
          
          if(resposta?.sucesso){

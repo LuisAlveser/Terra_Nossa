@@ -33,7 +33,7 @@ const{register,handleSubmit,formState:{errors}}=useForm({
 
             if(resposta?.sucesso){
              toast.success("Login realizado com sucesso")
-             router.push("/dashbord")
+             router.push("/dashboard")
 
             }else{
              toast.error(resposta?.error||"Erro ao logar")
