@@ -1,5 +1,5 @@
 
-import {buscarProdutosPorID,atualizarProduto}from "@/app/(rotas)/RotaProtudos"
+import {buscarProdutosPorID,buscarProdutos}from "@/app/(rotas)/RotaProtudos"
 import Produtos from "@/app/produtos/page";
 
 

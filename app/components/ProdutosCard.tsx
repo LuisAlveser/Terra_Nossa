@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/card"
 import Image from 'next/image'
 import {Button} from"@/components/ui/button"
+import Link from "next/link";
 
 export default function ProdutosCard({produto}){
   
@@ -30,10 +31,13 @@ export default function ProdutosCard({produto}){
            <CardDescription>
             <h4 className="text-white font-extrabold pt-2">Preço: R$ {produto.preco.toString()}</h4>
              <h4 className="text-white font-extrabold">Unidade: {produto.unit}</h4>
+            
            </CardDescription>
+            <Link href={`/dashboard/ver_produto/${produto.id}`} >
              <Button type="submit"  className="mbs-4  w-70 h-10 md:5 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold "> 
                 Ver 
              </Button>
+          </Link>
           </CardHeader>
       </div>
         </Card>

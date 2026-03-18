@@ -122,11 +122,28 @@ export async function excluirProduto(id:number) {
 }
 export async function buscarProdutosPorID(id:number) {
       try {
-        const produto=await prisma.produto.findFirst({where:{id:id}})
+        const produto=await prisma.produto.findFirst({where:{id:id},include: {
+  produtor: {
+    select: {
+      bio: true,
+      contato: true,
+      endereco:true,
+      estado:true,
+      cidade:true,
+      user:{
+        select:{
+            nome:true
+        }
+      }
+    }
+  }
+}})
         if(produto){
            return{
             sucesso:true,
-            produto
+            produto:{...produto,
+        preco: Number(produto.preco),
+            }
            }
         }
         
