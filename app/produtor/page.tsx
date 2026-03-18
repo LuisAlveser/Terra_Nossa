@@ -18,8 +18,7 @@ import { useTransition } from "react";
 import { useRouter } from 'next/navigation';
 import { toast } from "sonner";
 
-import Cookies from "js-cookie";
-import jwt from 'jsonwebtoken';
+
 
 export  default  function Produtor() {
   const router = useRouter()

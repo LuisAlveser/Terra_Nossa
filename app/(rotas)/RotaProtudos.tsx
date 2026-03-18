@@ -120,3 +120,45 @@ export async function excluirProduto(id:number) {
         }
     }
 }
+export async function buscarProdutosPorID(id:number) {
+      try {
+        const produto=await prisma.produto.findFirst({where:{id:id}})
+        if(produto){
+           return{
+            sucesso:true,
+            produto
+           }
+        }
+        
+      } catch (error) {
+        return{
+            sucesso:false,
+            error:error
+        }
+      }
+}
+export async function atualizarProduto(id:Number,dados:any) {
+    try {
+          const url =dados.imageUrl
+        const nomeArquivo = url.split('/').pop();
+      const  novosadados={...dados,imageUrl:nomeArquivo}
+     
+        const produto=await prisma.produto.update({where:{id:Number(id)},data:novosadados})
+
+             return{
+            sucesso:true,
+            produto:{
+                ...produto,
+        preco: Number(produto.preco),
+            }
+           
+        }
+        
+    } catch (error) {
+         return{
+            sucesso:false,
+            error:error
+        }
+    }
+    
+}

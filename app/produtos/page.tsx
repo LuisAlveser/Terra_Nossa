@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { produtoShema } from "@/lib/auth";
 import {zodResolver} from "@hookform/resolvers/zod"
 import z from"zod"
-import {adicionarProduto}from "@/app/(rotas)/RotaProtudos"
+import {adicionarProduto,atualizarProduto}from "@/app/(rotas)/RotaProtudos"
 import { useTransition } from "react";
 import { useRouter } from 'next/navigation';
 import { toast } from "sonner";
@@ -30,66 +30,74 @@ import {
 } from "@/components/ui/select"
 
 
-export  default  function Produtos() {
+export  default  function Produtos({ produto }: { produto?: any }) {
   const router = useRouter()
   const [carregando,start]=useTransition()
 
- 
  const {register,handleSubmit,setValue,formState:{errors}} =useForm({
   resolver: zodResolver(produtoShema),
   defaultValues:{
-     titulo:"",
-     descricao:"",
-     preco:"",
-     unit:"",
-     categoria:"",
-     imageUrl:"",
+    titulo: produto?.titulo || "",
+    descricao: produto?.descricao || "",
+    preco: produto?.preco || "",
+    unit: produto?.unit || "",
+    categoria: produto?.categoria || "",
+    imageUrl: produto?.imageUrl || undefined
   }
  })
  const cadastro=(data:z.infer< typeof produtoShema>)=>{
   start(async ()=>{
         try{
        
-        
-       const arquivo = data.imageUrl as File;
-     
-      if (!arquivo) {
-        toast.error("Por favor, selecione uma imagem.");
-        return;
-      }
-
-      
-      const nomeArquivo = `${Date.now()}-${arquivo.name}`;
-
-     
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('produtos')
-        .upload(nomeArquivo, arquivo);
-
-      if (uploadError) throw uploadError;
-
-      
-      const { data: { publicUrl } } = supabase.storage
-        .from('produtos')
-        .getPublicUrl(nomeArquivo);
-      const dadosCompletos={...data,imageUrl: publicUrl}
-      console.log(dadosCompletos)
-      const resposta = await adicionarProduto(dadosCompletos);
-        
-         if(resposta?.sucesso){
-             toast.success("Produto adicionado com sucesso")
-             router.push("/dashboard")
+        let finalImageUrl = produto?.imageUrl;
+       if (data.imageUrl instanceof File) {
+        if (produto?.imageUrl) {
           
-        }else{
-           toast.error(resposta?.error||"Erro ao adiiconar produto")
-         }
+          await supabase.storage
+            .from('produtos')
+            .remove([produto.imageUrl]);
+        }
+          const nomeArquivo = `${Date.now()}-${data.imageUrl.name}`;
+          const { data:uploadRes , error: uploadError } = await supabase.storage
+            .from('produtos')
+            .upload(nomeArquivo, data.imageUrl);
+
+          if (uploadError) throw uploadError;
+
+          const { data: { publicUrl } } = supabase.storage
+            .from('produtos')
+            .getPublicUrl(nomeArquivo);
+          
+          finalImageUrl = publicUrl;
+          
+        } else if (!produto && !data.imageUrl) {
+          
+          toast.error("Por favor, selecione uma imagem.");
+          return;
+        }
+        const dadosCompletos = { ...data, imageUrl: finalImageUrl };
+     const resposta = produto 
+          ? await atualizarProduto(produto.id, dadosCompletos)
+          : await adicionarProduto(dadosCompletos);
+
+        if (resposta?.sucesso) {
+          toast.success(produto ? "Produto atualizado!" : "Produto adicionado!");
+           router.refresh();
+          router.push("/dashboard");
+   
+        } else {
+            console.log(resposta?.error)
+          toast.error("Erro na operação");
+        }  
+      
         }catch(error){
           
-              toast.error("Erro ao adiiconar produto")
+              toast.error("Erro ao adicionar produto")
         }
   })
     
  }
+
 
   
 
@@ -99,9 +107,9 @@ export  default  function Produtos() {
       <form className="flex flex-col gap-5" onSubmit={handleSubmit(cadastro)}>
         <CardTitle className="flex justify-end">
         
-         <Link href="/dashbord">  <CircleX className="text-white cursor-pointer" /></Link>
+         <Link href={"/dashboard"}>  <CircleX className="text-white cursor-pointer" /></Link>
         </CardTitle>
-        <h1 className="text-2xl text-white font-extrabold text-center">Cadastre seu Produto</h1>
+        <h1 className="text-2xl text-white font-extrabold text-center">{produto?"Atualizar Produto":"Cadastre seu Produto"}</h1>
       
          <Input className="w-70 placeholder:text-white text-white"  placeholder="Titulo" {...register("titulo")}/>
               {errors.titulo&&<span className="text-red-700 flex">{errors.titulo.message}</span>} 
@@ -133,12 +141,12 @@ export  default  function Produtos() {
             
           <Input className="w-70 text-white cursor-pointer"type="file"onChange={(e) => {
     const file = e.target.files?.[0];
-    if (file) setValue("imageUrl", file); 
+    if (file) setValue("imageUrl", file,{ shouldValidate: true }); 
   }}
 />
 
           <Button type="submit" disabled={carregando} className="w-70 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold ">
-            {carregando?<Loader2  className="size-4 animate-spin"/>:<span>Adicionar Produto</span>}</Button>
+            {carregando?<Loader2  className="size-4 animate-spin"/>:<span>{produto?"Atualizar Produto":"Adicionar Produto"}</span>}</Button>
       </form>
     </Card>
     </div>

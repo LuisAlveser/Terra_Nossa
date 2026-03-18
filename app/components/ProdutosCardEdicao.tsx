@@ -11,6 +11,7 @@ import { CircleX,Pencil } from "lucide-react";
 import {excluirProduto}from "@/app/(rotas)/RotaProtudos"
 import { toast } from "sonner";
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 export default function ProdutosCardEdicao({produto}){
     const router = useRouter()
@@ -35,8 +36,9 @@ export default function ProdutosCardEdicao({produto}){
           <CardHeader className="w-full justify-center items-center pt-2">
             <CardTitle className="text-center text-white text-xl md:text-1xl font-extrabold whitespace-nowrap " >
                <div className="flex justify-between flex-row">
-               
+               <Link href={`/dashboard/editar/${produto.id}`}>
                  <Pencil  className="cursor-pointer text-white"/>
+                </Link>
                    <CircleX className=" cursor-pointer text-red-700"  onClick={() => excluir(produto.id)} />
                  </div>
                {produto.titulo}
