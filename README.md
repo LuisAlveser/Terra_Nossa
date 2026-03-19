@@ -21,7 +21,6 @@ Vitrine Digital: Listagem de produtos com categorias, preços e disponibilidade.
 
 Sistema de Avaliação: Feedback dos consumidores para gerar confiança na comunidade.
 
-Filtros Inteligentes: Busca por tipo de produto ou proximidade.
 
 Dashboard Administrativo: Gestão de inventário e pedidos para o comerciante.
 
