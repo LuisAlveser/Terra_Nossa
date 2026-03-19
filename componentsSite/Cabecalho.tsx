@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken'
 import { CircleUserRound } from 'lucide-react';
-import {sair }from"@/app/(rotas)/RotaUsuario"
+import {sair }from"@/app/(server)/RotaUsuario"
 
 export default async function Cabecalho(){
     const cookieStore = await cookies();
@@ -37,9 +37,9 @@ export default async function Cabecalho(){
     
        <CircleUserRound className="text-white h-10 w-8 cursor-pointer"/>
 
-        <Link href={"/usuarioopcoes"}>
+      
        <h1 className="text-white font-extrabold text-2xl" >{usuario?.nome}</h1>
-       </Link>
+       
 
        <Link href={"/produtor"}>
         <Button className="w-30 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white font-extrabold text-green-800 ">Venda aqui</Button>

@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { cadastroShema } from "@/lib/auth";
 import {zodResolver} from "@hookform/resolvers/zod"
 import z from"zod"
-import {cadastrarUsuario}from "@/app/(rotas)/RotaUsuario"
+import {cadastrarUsuario}from "@/app/(server)/RotaUsuario"
 import { useTransition } from "react";
 import { useRouter } from 'next/navigation';
 

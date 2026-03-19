@@ -13,6 +13,7 @@ model User {
   email    String
   senha    String
   produtor Produtor?
+  avaliacao Avaliacao[]
 }
 
 model Produtor {
@@ -47,4 +48,6 @@ model Avaliacao {
   nota       Int
   id_produto Int
   produto    Produto @relation(fields: [id_produto], references: [id], onDelete: Cascade)
+  id_user Int
+  user   User @relation(fields: [id_user],references: [id],onDelete: Cascade)
 }

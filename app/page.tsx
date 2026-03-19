@@ -1,7 +1,7 @@
  "user client"
-import { Card1 } from "./components/Card1";
-import { Card2 } from "./components/Card2";
-import { Card3 } from "./components/Card3";
+import { Card1 } from "../componentsSite/Card1";
+import { Card2 } from "../componentsSite/Card2";
+import { Card3 } from "../componentsSite/Card3";
 
 
 export default function Home() {

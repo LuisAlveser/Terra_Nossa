@@ -18,18 +18,21 @@ import { cookies } from "next/headers";
     return null;
   }
 }
- export async function cadastrarProdutor(data:any){
+ export async function cadastrarProdutor(dat:any){
    const usuario = await obterUsuarioDoCookie()
-   
+   if(!usuario){
+        return
+       }
     try {
        const  produtor={
-        bio:data.bio,
-        contato:data.contato,
-        endereco:data.endereco,
-        estado:data.estado,
-        cidade:data.cidade,
+        bio:dat.bio,
+        contato:dat.contato,
+        endereco:dat.endereco,
+        estado:dat.estado,
+        cidade:dat.cidade,
         user_id: usuario?.id
        }
+       
        const resposta=await prisma.produtor.create({data:produtor})
        if(resposta){
           return{

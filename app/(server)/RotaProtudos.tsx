@@ -1,7 +1,7 @@
 "use server"
 import { prisma } from "@/lib/prisma";
-import {obterUsuarioDoCookie}from"@/app/(rotas)/RotaProdutor"
-import{verificaProdutor}from"@/app/(rotas)/RotaProdutor" 
+import {obterUsuarioDoCookie}from"@/app/(server)/RotaProdutor"
+import{verificaProdutor}from"@/app/(server)/RotaProdutor" 
 import { supabase } from "@/lib/supabase";
 
 export async function adicionarProduto(data:any) {

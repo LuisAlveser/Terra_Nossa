@@ -26,3 +26,9 @@ export const produtoShema=z.object({
     categoria:z.string().min(2,"Categoria inválida"),
     imageUrl:z.any().optional()
 })
+
+export const avaliacaoShema=z.object({
+    comentario:z.string().min(6,"Contato inválido"),
+    nota:z.coerce.number().positive("A nota deve ser positiva"),
+  
+})

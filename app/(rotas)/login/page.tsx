@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import {Button} from"@/components/ui/button"
 import Link from 'next/link'
 import z from"zod"
-import {login}from "@/app/(rotas)/RotaUsuario"
+import {login}from "@/app/(server)/RotaUsuario"
 import { useTransition } from "react";
 import { useRouter } from 'next/navigation';
 import { useForm } from "react-hook-form";

@@ -1,14 +1,14 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { buscarProdutos,buscarProdutosPorProdutor } from "@/app/(rotas)/RotaProtudos";
-import ProdutosCard from "../components/ProdutosCard";
+import { buscarProdutos,buscarProdutosPorProdutor } from "@/app/(server)/RotaProtudos";
+import ProdutosCard from "../../../componentsSite/ProdutosCard";
 import Link from 'next/link'
 
 import { SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Sidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import  jwt  from "jsonwebtoken";
-import ProdutosCardEdicao from "../components/ProdutosCardEdicao";
+import ProdutosCardEdicao from "../../../componentsSite/ProdutosCardEdicao";
  interface PageProps {
   searchParams: Promise<{ filtro?: string }>;
 }
@@ -22,7 +22,7 @@ export default async function Tela_principal({ searchParams }: PageProps) {
  let usuario = null;
    if (token) {
     try {
-      usuario = jwt.decode(token) as { nome: string };
+      usuario = jwt.decode(token) as { nome: string,email:String };
     } catch (e) {
       usuario = null;
     }

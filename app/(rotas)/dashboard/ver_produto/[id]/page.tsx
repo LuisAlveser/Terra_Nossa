@@ -1,17 +1,16 @@
-import { buscarProdutosPorID } from "@/app/(rotas)/RotaProtudos";
+import { buscarProdutosPorID } from "@/app/(server)/RotaProtudos";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge"
-import { CircleUserRound, MapPin, Phone, User } from "lucide-react";
+import { MapPin, Phone, User } from "lucide-react";
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
-
+import Link from 'next/link'
 export default async function VerProdutos({ params }: { params: { id: number } }) {
     const { id } = await params;
     const produto_id = Number(id);
     const resposta = await buscarProdutosPorID(produto_id);
-    const { produto } = resposta;
+   
 
-    if (!produto) return <div className="p-10 text-center">Produto não encontrado.</div>;
+    if (!resposta) return <div className="p-10 text-center">Produto não encontrado.</div>;
 
     return (
         <div className="max-w-5xl mx-auto p-6">
@@ -20,8 +19,8 @@ export default async function VerProdutos({ params }: { params: { id: number } }
                
                 <div className="relative aspect-square overflow-hidden rounded-3xl bg-slate-100 border shadow-sm">
                     <Image
-                        src={`https://vnzgvgqnhatawhbtexvh.supabase.co/storage/v1/object/public/produtos/${produto.imageUrl}`}
-                        alt={produto.titulo}
+                        src={`https://vnzgvgqnhatawhbtexvh.supabase.co/storage/v1/object/public/produtos/${resposta?.produto?.imageUrl}`}
+                        alt={""}
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300"
                     />
@@ -30,9 +29,9 @@ export default async function VerProdutos({ params }: { params: { id: number } }
              
                 <div className="flex flex-col gap-6">
                     <div>
-                        <h1 className="text-4xl font-bold text-slate-900">{produto.titulo}</h1>
+                        <h1 className="text-4xl font-bold text-slate-900">{resposta?.produto?.titulo}</h1>
                         <p className="text-3xl font-semibold text-green-700 mt-2">
-                            R$ {produto.preco}
+                            R$ {resposta?.produto?.preco}
                         </p>
                     </div>
 
@@ -45,28 +44,29 @@ export default async function VerProdutos({ params }: { params: { id: number } }
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div>
-                                <h3 className="font-bold text-slate-800">{produto.produtor.user.nome}</h3>
+                                <h3 className="font-bold text-slate-800">{resposta.produto?.produtor.user.nome}</h3>
                                 <p className="text-sm text-slate-600 leading-relaxed italic">
-                                    "{produto.produtor.bio}"
+                                    "{resposta.produto?.produtor.bio}"
                                 </p>
                             </div>
 
                             <div className="grid grid-cols-1 gap-3 text-sm border-t pt-4">
                                 <div className="flex items-center gap-2 text-slate-700">
                                     <MapPin className="w-4 h-4 text-green-600" />
-                                    <span>{produto.produtor.cidade} - {produto.produtor.endereco}</span>
+                                    <span>{resposta.produto?.produtor.cidade} - {resposta.produto?.produtor.endereco}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-slate-700">
                                     <Phone className="w-4 h-4 text-green-600" />
-                                    <span>{produto.produtor.contato}</span>
+                                    <span>{resposta.produto?.produtor.contato}</span>
                                 </div>
                             </div>
                         </CardContent>
                     </Card>
-
+                 
                     <Button className="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-4 rounded-xl transition-all shadow-lg">
                         Avaliar Produto
                     </Button>
+               
                 </div>
             </div>
         </div>

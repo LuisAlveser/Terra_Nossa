@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter,Bebas_Neue } from "next/font/google";
 import "./globals.css";
-import Cabecalho from "@/app/components/Cabecalho";
+import Cabecalho from "@/componentsSite/Cabecalho";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 // Imports do Sidebar

@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { produtorShema } from "@/lib/auth";
 import {zodResolver} from "@hookform/resolvers/zod"
 import z from"zod"
-import {verificaProdutor,cadastrarProdutor}from "@/app/(rotas)/RotaProdutor"
+import {verificaProdutor,cadastrarProdutor}from "@/app/(server)/RotaProdutor"
 import { useTransition } from "react";
 import { useRouter } from 'next/navigation';
 import { toast } from "sonner";

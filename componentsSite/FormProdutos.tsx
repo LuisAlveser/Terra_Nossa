@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { produtoShema } from "@/lib/auth";
 import {zodResolver} from "@hookform/resolvers/zod"
 import z from"zod"
-import {adicionarProduto,atualizarProduto}from "@/app/(rotas)/RotaProtudos"
+import {adicionarProduto,atualizarProduto}from "@/app/(server)/RotaProtudos"
 import { useTransition } from "react";
 import { useRouter } from 'next/navigation';
 import { toast } from "sonner";
@@ -28,9 +28,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+interface ProdutoProps {
+  produto?: {
+    id:   number;
+    titulo: string;
+    descricao:string;
+    categoria:string;
+    imageUrl: string;
+    preco: number | string;
+    unit: string;
+  };
+}
 
-
-export  default  function Produtos({ produto }: { produto?: any }) {
+export   default function FormProdutos({ produto }:ProdutoProps) {
   const router = useRouter()
   const [carregando,start]=useTransition()
 

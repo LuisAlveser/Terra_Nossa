@@ -1,4 +1,4 @@
-
+'use client'
 import {
   Card,
   CardDescription,
@@ -7,10 +7,36 @@ import {
 } from "@/components/ui/card"
 import Image from 'next/image'
 import {Button} from"@/components/ui/button"
+import { CircleX,Pencil } from "lucide-react";
+import {excluirProduto}from "@/app/(server)/RotaProtudos"
+import { toast } from "sonner";
+import { useRouter } from 'next/navigation';
 import Link from "next/link";
-
-export default function ProdutosCard({produto}){
+interface ProdutoProps {
+  produto: {
+    id:   number;
+    titulo: string;
+    imageUrl: string;
+    preco: number | string;
+    unit: string;
+  };
+}
+export default function ProdutosCardEdicao({produto}:ProdutoProps){
   
+    const router = useRouter()
+    const excluir=async (id:number)=>{
+        try {
+            const deletar=await excluirProduto(id)
+          
+            if(deletar.sucesso){
+                toast.success("Produto excluido com sucesso")
+                router.push("/dashboard?filtro=meus")
+            }
+
+        } catch (error) {
+            toast.error("Erro em excluir produto")
+        }
+    }
      return (
         
      <>
@@ -18,7 +44,15 @@ export default function ProdutosCard({produto}){
         <div className="flex justify-center pt-2 flex-col">      
           <CardHeader className="w-full justify-center items-center pt-2">
             <CardTitle className="text-center text-white text-xl md:text-1xl font-extrabold whitespace-nowrap " >
-                {produto.titulo}</CardTitle>
+               <div className="flex justify-between flex-row">
+               <Link href={`/dashboard/editar/${produto.id}`}>
+                 <Pencil  className="cursor-pointer text-white"/>
+                </Link>
+                   <CircleX className=" cursor-pointer text-red-700"  onClick={() => excluir(produto.id)} />
+                 </div>
+               {produto.titulo}
+                
+                </CardTitle>
                 <div className="flex justify-center w-full h-45 rounded-3xl bg-white overflow-hidden relative">
                 <Image 
               src={`https://vnzgvgqnhatawhbtexvh.supabase.co/storage/v1/object/public/produtos/${produto.imageUrl}`}
@@ -31,13 +65,10 @@ export default function ProdutosCard({produto}){
            <CardDescription>
             <h4 className="text-white font-extrabold pt-2">Preço: R$ {produto.preco.toString()}</h4>
              <h4 className="text-white font-extrabold">Unidade: {produto.unit}</h4>
-            
            </CardDescription>
-            <Link href={`/dashboard/ver_produto/${produto.id}`} >
              <Button type="submit"  className="mbs-4  w-70 h-10 md:5 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold "> 
                 Ver 
              </Button>
-          </Link>
           </CardHeader>
       </div>
         </Card>
