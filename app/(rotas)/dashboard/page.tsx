@@ -9,6 +9,7 @@ import { Sidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import  jwt  from "jsonwebtoken";
 import ProdutosCardEdicao from "../../../componentsSite/ProdutosCardEdicao";
+
  interface PageProps {
   searchParams: Promise<{ filtro?: string }>;
 }

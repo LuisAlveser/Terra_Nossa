@@ -1,12 +1,30 @@
 import { buscarProdutosPorID } from "@/app/(server)/RotaProtudos";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Phone, User } from "lucide-react";
+import { MapPin, Phone, Star, User } from "lucide-react";
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import Link from 'next/link'
+import{buscarAvaliação}from "@/app/(server)/RotaAvaliacao"
+import { CircleUserRound } from 'lucide-react';
+ interface Avaliacao{
+          id:number,
+          comentario:string,
+          nota:number,
+          id_produto:number,
+          user?:any
+          
+        
+    }
 export default async function VerProdutos({ params }: { params: { id: number } }) {
     const { id } = await params;
     const produto_id = Number(id);
+   
+    const avaliacoes= await buscarAvaliação(produto_id)
+    if(!avaliacoes){
+        return <div className="p-10 text-center">Esse produto não sem avaliações .</div>;
+    }
+    const avaliacaoLista:Avaliacao[]=avaliacoes.resposta??[]
+    
     const resposta = await buscarProdutosPorID(produto_id);
    
 
@@ -62,12 +80,39 @@ export default async function VerProdutos({ params }: { params: { id: number } }
                             </div>
                         </CardContent>
                     </Card>
-                 
+                    
+                   <Link href={`/avaliacao/${produto_id}`}>
                     <Button className="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-4 rounded-xl transition-all shadow-lg">
                         Avaliar Produto
                     </Button>
-               
+                  </Link>
                 </div>
+               
+               
+                <div className=" grid grid-cols-1 gap-10">
+               {avaliacaoLista.map((itens)=>(
+                <li className="bg-green-800 flex-col justify-center  rounded-2xl list-none pt-5" key={itens.id}>
+                   
+                   <ul className="flex flex-col w-full mb-10">
+                    <div className="flex flex-row gap-3 items-center  ml-5 pt-5 ">
+                    <CircleUserRound className="text-white" size={40}/>
+                    
+                   <h1 className="text-white font-extrabold text-2xl ">{itens.user.nome}</h1>
+                  
+                    <Star className=" text-white justify-end ml-50" size={20}/><span className="text-white text-2xl justify-center font-extrabold">
+                         {itens.nota}</span>
+                 
+                  
+                   </div>
+                   <div className="flex flex-row justify-center items-center pt-0.5 ">
+                     <p className="text-sm leading-relaxed italic break-words whitespace-norma  text-white justify-center ">
+                                    "{itens.comentario}"
+                                </p>
+                         </div>
+                   </ul>
+                </li>
+               ))}
+               </div>
             </div>
         </div>
     );

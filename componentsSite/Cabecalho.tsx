@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken'
 import { CircleUserRound } from 'lucide-react';
 import {sair }from"@/app/(server)/RotaUsuario"
-
+import {BotaoVoltar}from "@/componentsSite/BotaoVoltar"
 export default async function Cabecalho(){
     const cookieStore = await cookies();
    const token = cookieStore.get("token")?.value;
@@ -48,7 +48,7 @@ export default async function Cabecalho(){
         <Link href={"/produtos"}>
         <Button className="w-35 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white font-extrabold text-green-800 ">Adicione Produtos</Button>
         </Link>
-
+        <BotaoVoltar/>
         <Button className="w-20 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white font-extrabold text-green-800 "onClick={sair} >Sair</Button>
 
  </div>:(
