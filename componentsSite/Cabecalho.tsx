@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken'
 import { CircleUserRound } from 'lucide-react';
 import {sair }from"@/app/(server)/RotaUsuario"
-import {BotaoVoltar}from "@/componentsSite/BotaoVoltar"
+import {BotaoVoltar}from "@/componentsSite/BotaoAnimado"
 export default async function Cabecalho(){
     const cookieStore = await cookies();
    const token = cookieStore.get("token")?.value;

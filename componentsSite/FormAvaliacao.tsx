@@ -25,7 +25,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default  function FormAvaliacao({ params }: { params: { id: number }}){
 
-   const [nota,setNota]=useState([])
+   
     const produto_id = Number(params.id);
     const router = useRouter()
   const [carregando,start]=useTransition()

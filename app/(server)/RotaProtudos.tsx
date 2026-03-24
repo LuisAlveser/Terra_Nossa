@@ -64,12 +64,19 @@ export async function adicionarProduto(data:any) {
  export async function buscarProdutosPorProdutor() {
      try {
           const usuario =await obterUsuarioDoCookie()
+          console.log("Mario usuario",usuario)
   const produtor= await prisma.produtor.findFirst({where:{user_id:usuario?.id}}) 
-
+      if(!produtor){
+          return{
+            sucesso:false,
+         
+        }
+      }
         const produtos=await prisma.produto.findMany({where:{id_produtor:produtor?.id}});
         
         
         if(produtos){
+            
             return{
             produtos,
         }
@@ -107,6 +114,7 @@ export async function excluirProduto(id:number) {
             }
          }
           const deletar=  await prisma.produto.delete({where:{id:id}})
+          
             return{
                 sucesso:true,
             }

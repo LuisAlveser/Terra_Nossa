@@ -7,11 +7,12 @@ import {
 } from "@/components/ui/card"
 import Image from 'next/image'
 import {Button} from"@/components/ui/button"
-import { CircleX,Pencil } from "lucide-react";
+import { CircleX,Loader2,Pencil } from "lucide-react";
 import {excluirProduto}from "@/app/(server)/RotaProtudos"
 import { toast } from "sonner";
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
+import { useTransition } from "react";
 interface ProdutoProps {
   produto: {
     id:   number;
@@ -24,6 +25,13 @@ interface ProdutoProps {
 export default function ProdutosCardEdicao({produto}:ProdutoProps){
   
     const router = useRouter()
+      const [carregando,start]=useTransition()
+      
+      const verProdutos=()=>{
+        start(()=>{
+          router.push(`/dashboard/ver_produto/${produto.id}`)
+        })
+      }
     const excluir=async (id:number)=>{
         try {
             const deletar=await excluirProduto(id)
@@ -66,8 +74,8 @@ export default function ProdutosCardEdicao({produto}:ProdutoProps){
             <h4 className="text-white font-extrabold pt-2">Preço: R$ {produto.preco.toString()}</h4>
              <h4 className="text-white font-extrabold">Unidade: {produto.unit}</h4>
            </CardDescription>
-             <Button type="submit"  className="mbs-4  w-70 h-10 md:5 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold "> 
-                Ver 
+             <Button disabled={carregando} type="submit"  className="mbs-4  w-70 h-10 md:5 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold " onClick={verProdutos}> 
+                {carregando?<Loader2  className="size-4 animate-spin"/>:<span>Ver</span>} 
              </Button>
           </CardHeader>
       </div>

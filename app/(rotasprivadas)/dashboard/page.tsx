@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Sidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
+
 import  jwt  from "jsonwebtoken";
 import ProdutosCardEdicao from "../../../componentsSite/ProdutosCardEdicao";
 
@@ -32,6 +33,7 @@ export default async function Tela_principal({ searchParams }: PageProps) {
   const params = await searchParams;
   const mostrarMeusProdutos = params.filtro === "meus";
   const data= mostrarMeusProdutos?await buscarProdutosPorProdutor(): await buscarProdutos();
+  
   const listaProdutos=data?.produtos||[]
 
   return (
@@ -61,12 +63,13 @@ export default async function Tela_principal({ searchParams }: PageProps) {
              </Button>
          </Link>:null
          }
-
+            <Link href="dashboard/editar/user">
          <Button type="submit"   className="mbs-4  w-40 h-10 md:5 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold "> 
             Atualizar conta
              </Button>
+            </Link>
             
-
+         
              <Button type="submit"  className="mbs-4  w-40 h-10 md:5 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold "> 
             Excluir conta 
              </Button>

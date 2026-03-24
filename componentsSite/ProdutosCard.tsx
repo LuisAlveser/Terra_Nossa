@@ -1,4 +1,4 @@
-
+'use client'
 import {
   Card,
   CardDescription,
@@ -8,7 +8,10 @@ import {
 import Image from 'next/image'
 import {Button} from"@/components/ui/button"
 import Link from "next/link";
-
+import {  useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import { Span } from "next/dist/trace";
 interface ProdutoProps {
   produto: {
     id: string | number;
@@ -19,7 +22,13 @@ interface ProdutoProps {
   };
 }
 export default function ProdutosCard({produto}:ProdutoProps){
-  
+   const [carregando,start]=useTransition()
+   const router=useRouter();
+  const verProdutos=()=>{
+    start(()=>{
+      router.push(`/dashboard/ver_produto/${produto.id}`)
+    })
+  }
      return (
         
      <>
@@ -42,11 +51,11 @@ export default function ProdutosCard({produto}:ProdutoProps){
              <h4 className="text-white font-extrabold">Unidade: {produto.unit}</h4>
             
            </CardDescription>
-            <Link href={`/dashboard/ver_produto/${produto.id}`} >
-             <Button type="submit"  className="mbs-4  w-70 h-10 md:5 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold "> 
-                Ver 
+           
+             <Button type="submit"disabled={carregando}  className="mbs-4  w-70 h-10 md:5 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold " onClick={verProdutos}> 
+               { carregando?<Loader2  className="size-4 animate-spin"/>:<span>Ver</span>} 
              </Button>
-          </Link>
+          
           </CardHeader>
       </div>
         </Card>

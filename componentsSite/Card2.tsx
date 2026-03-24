@@ -19,7 +19,7 @@ export function Card2() {
     
       <CardHeader className="w-full justify-center items-center pt-2">
         <CardTitle className="text-center text-white text-xl md:text-1xl font-extrabold whitespace-nowrap " >
-            AJUDE NA RONDA DE FAMÍLIAS</CardTitle>
+            AJUDE NA RENDA DE FAMÍLIAS</CardTitle>
       </CardHeader>
   </div>
     </Card>

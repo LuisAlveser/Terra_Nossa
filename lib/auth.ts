@@ -28,7 +28,16 @@ export const produtoShema=z.object({
 })
 
 export const avaliacaoShema=z.object({
-    comentario:z.string().min(6,"Contato inválido").max(30,"Limete de caracteres atingido"),
+    comentario:z.string().min(6,"Contato inválido").max(30,"Limite de caracteres atingido"),
     nota:z.string(),
   
 })
+export const produtorAtualizadoShema = z.object({
+    nome: z.string().min(3, "O nome deve ter mais caracteres").max(20),
+    email: z.string().email("Digite um email válido"), // Corrigido: z.string().email()
+    bio: z.string().min(3, "A biografia deve ter mais caracteres").max(50).or(z.literal("")).optional(),
+    contato: z.string().min(6, "Contato inválido").or(z.literal("")).optional(),
+    endereco: z.string().min(3, "Endereço inválido").or(z.literal("")).optional(),
+    estado: z.string().min(2, "Estado inválido").or(z.literal("")).optional(),
+    cidade: z.string().min(2, "Cidade inválida").or(z.literal("")).optional()
+});

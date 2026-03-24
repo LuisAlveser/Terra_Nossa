@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import jwt from"jsonwebtoken"
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { success } from "zod";
+import { obterUsuarioDoCookie } from "./RotaProdutor";
 
 
 export async function cadastrarUsuario(data:any) {
@@ -85,8 +87,41 @@ export async function login(data:any) {
 }
 }
 
+
 export async function sair() {
   const cookieStore = await cookies();
   cookieStore.delete("token"); 
   redirect("/"); 
+}
+
+export async function atualizarUsuario(data:any) {
+     try {
+        const usuario =await obterUsuarioDoCookie()
+      
+        if(!usuario){
+          return {
+            sucesso:false
+          }
+        }
+        
+       const resposta=await prisma.user.update({where:{id:usuario.id},data:{nome:data.nome,email:data.email}})
+       if(resposta){
+            const token=jwt.sign({id:usuario.id,nome:resposta.nome,email:resposta.email},process.env.Token_Segredo!, { expiresIn: '1h' })
+        const cookie=await cookies();
+       cookie.set("token",token,{
+          httpOnly: true, 
+          secure: process.env.NODE_ENV === "production",
+          maxAge: 60 * 60, 
+          path: "/",
+    })
+        return{
+          sucessso:true
+        }
+       }
+     } catch (error) {
+      return{
+        succeso:false,
+        error:error
+      }
+     }
 }

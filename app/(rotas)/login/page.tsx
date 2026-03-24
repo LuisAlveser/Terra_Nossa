@@ -60,6 +60,7 @@ const{register,handleSubmit,formState:{errors}}=useForm({
 
           <Button type="submit" className="w-70 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold ">
             {carregando?<Loader2 className="size-4 animate-spin"/>:<span>Logar</span> }</Button>
+            <p className="flex justify-center ">Esqueceu sua senha? <span className="text-white cursor-pointer font-extrabold pl-1"> Clique aqui!</span></p>
       </form>
     </Card>
     </div>

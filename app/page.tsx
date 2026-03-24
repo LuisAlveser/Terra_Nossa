@@ -9,7 +9,7 @@ export default function Home() {
     <>
     <div className=" flex justify-center h_screen  justify-items-center ">
       <h1 className="text-green-800 text-3xl md:text-5xl lg:text-4xl pt-5 md:pt-10 px-4 text-center font-extrabold ">
-        Encontre produtos o mais próximo de você
+       Encontre produtos o mais perto de você
         </h1>
     </div>
        <div className=" pt-20 justify-center flex flex-row gap-2">

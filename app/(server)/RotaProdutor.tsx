@@ -53,22 +53,54 @@ export  async function verificaProdutor() {
     const usuario =await obterUsuarioDoCookie()
     
     try {
-        const produtor =await prisma.produtor.findFirst({where:{user_id:usuario?.id}})
+        const produtor =await prisma.produtor.findFirst({where:{user_id:usuario?.id},include:{user:{select:{nome:true,email:true}}}})
         
         if(produtor){
             return{
                 produtor:{
-                    id:produtor.id
+                    
+                    ...produtor
                 },
                 sucesso:true,
                 error:"Você já é um produtor",
 
             }
         }
+
     } catch (error) {
           return{
         sucesso:false,
-        error:"Erro ao  virar produtor"
+        error:"Erro ao  verificar Produtor"
       }
     }
+}
+
+export async function atualizarProdutor(data:any){
+  try {
+      const usuario =await obterUsuarioDoCookie()
+      if(!usuario){
+        return null
+      }
+     const resposta= await prisma.produtor.update({where:{user_id:usuario.id},
+      data:{bio:data.bio,contato:data.contato,endereco:data.endereco,cidade:data.cidade}})
+     if(resposta){
+           const token=jwt.sign({id:usuario.id,nome:data.nome,email:data.email},process.env.Token_Segredo!, { expiresIn: '1h' })
+                 const cookie=await cookies();
+                cookie.set("token",token,{
+                   httpOnly: true, 
+                   secure: process.env.NODE_ENV === "production",
+                   maxAge: 60 * 60, 
+                   path: "/",
+             })
+         return{
+          sucesso:true
+         }
+     }
+  } catch (error) {
+    console.log(error)
+         return{
+        sucesso:false,
+        error:"Erro ao  virar produtor"
+      }
+  }
 }

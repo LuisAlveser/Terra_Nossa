@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from 'next/link'
 import{buscarAvaliação}from "@/app/(server)/RotaAvaliacao"
 import { CircleUserRound } from 'lucide-react';
+import { BotãoAvaliar } from "@/componentsSite/BotaoAnimado";
  interface Avaliacao{
           id:number,
           comentario:string,
@@ -81,11 +82,7 @@ export default async function VerProdutos({ params }: { params: { id: number } }
                         </CardContent>
                     </Card>
                     
-                   <Link href={`/avaliacao/${produto_id}`}>
-                    <Button className="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-4 rounded-xl transition-all shadow-lg">
-                        Avaliar Produto
-                    </Button>
-                  </Link>
+                   <BotãoAvaliar produto_id={produto_id}/>
                 </div>
                
                
