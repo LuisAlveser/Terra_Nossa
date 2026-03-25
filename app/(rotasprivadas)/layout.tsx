@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import {cache}from "react"
 
 import { obterUsuarioDoCookie } from "../(server)/RotaProdutor";
 import { redirect } from "next/navigation";
@@ -16,6 +16,7 @@ export default async function LayoutPrivado({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
     const usuario= await obterUsuarioDoCookie();
     if(!usuario){
          redirect('/')

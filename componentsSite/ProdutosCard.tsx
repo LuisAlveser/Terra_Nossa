@@ -10,18 +10,20 @@ import {Button} from"@/components/ui/button"
 import Link from "next/link";
 import {  useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, Star } from "lucide-react";
 import { Span } from "next/dist/trace";
+
 interface ProdutoProps {
   produto: {
-    id: string | number;
+    id:  number;
     titulo: string;
     imageUrl: string;
     preco: number | string;
     unit: string;
+    media:string|number
   };
 }
-export default function ProdutosCard({produto}:ProdutoProps){
+export default  function ProdutosCard({produto}:ProdutoProps){
    const [carregando,start]=useTransition()
    const router=useRouter();
   const verProdutos=()=>{
@@ -29,14 +31,29 @@ export default function ProdutosCard({produto}:ProdutoProps){
       router.push(`/dashboard/ver_produto/${produto.id}`)
     })
   }
+ 
+
      return (
         
      <>
-     <Card className=" w-100 h-auto max-w-md min-h-70 bg-green-800 border-none flex flex-col items-center p-4 ">
+     <Card className="  w-100 h-auto max-w-md min-h-70 bg-green-800 border-none flex flex-col items-center p-4 ">
         <div className="flex justify-center pt-2 flex-col">      
           <CardHeader className="w-full justify-center items-center pt-2">
             <CardTitle className="text-center text-white text-xl md:text-1xl font-extrabold whitespace-nowrap " >
-                {produto.titulo}</CardTitle>
+                <span className="flex-grow text-left leading-tight ">
+                    {produto.titulo}
+                   </span>
+                <div className="flex flex-row justify-end items-center ">
+                 
+                  <span className=" flex flex-row items-center"> 
+                  <Star className="text-white justify-end" size={20}/>
+                  {produto.media}
+                  </span>
+                
+
+                </div>
+                </CardTitle>
+                 
                 <div className="flex justify-center w-full h-45 rounded-3xl bg-white overflow-hidden relative">
                 <Image 
               src={`https://vnzgvgqnhatawhbtexvh.supabase.co/storage/v1/object/public/produtos/${produto.imageUrl}`}

@@ -86,7 +86,7 @@ export default async function VerProdutos({ params }: { params: { id: number } }
                 </div>
                
                
-                <div className=" grid grid-cols-1 gap-10">
+                <div className=" grid grid-cols-1 w-130 gap-10">
                {avaliacaoLista.map((itens)=>(
                 <li className="bg-green-800 flex-col justify-center  rounded-2xl list-none pt-5" key={itens.id}>
                    
@@ -94,7 +94,7 @@ export default async function VerProdutos({ params }: { params: { id: number } }
                     <div className="flex flex-row gap-3 items-center  ml-5 pt-5 ">
                     <CircleUserRound className="text-white" size={40}/>
                     
-                   <h1 className="text-white font-extrabold text-2xl ">{itens.user.nome}</h1>
+                   <h1 className="text-white font-extrabold text-2xl  ">{itens.user.nome}</h1>
                   
                     <Star className=" text-white justify-end ml-50" size={20}/><span className="text-white text-2xl justify-center font-extrabold">
                          {itens.nota}</span>

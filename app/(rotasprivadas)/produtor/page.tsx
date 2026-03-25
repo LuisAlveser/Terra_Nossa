@@ -51,7 +51,7 @@ export  default  function Produtor() {
          
          if(resposta?.sucesso){
              toast.success("Parabens você agora é um produtor")
-             router.push("/dashbord")
+             router.push("/dashboard")
          
         }else{
            toast.error(resposta?.error||"Erro ao virar produtor")

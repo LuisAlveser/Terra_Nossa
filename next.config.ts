@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   domains: ['vnzgvgqnhatawhbtexvh.supabase.co'],
   
   },
+  output:"standalone"
 };
 
 export default nextConfig;

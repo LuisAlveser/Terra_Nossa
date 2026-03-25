@@ -97,7 +97,7 @@ export   default function FormProdutos({ produto }:ProdutoProps) {
    
         } else {
             console.log(resposta?.error)
-          toast.error("Erro na operação");
+          toast.error(resposta?.error as string);
         }  
       
         }catch(error){

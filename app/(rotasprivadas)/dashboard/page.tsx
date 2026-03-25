@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 
 import  jwt  from "jsonwebtoken";
 import ProdutosCardEdicao from "../../../componentsSite/ProdutosCardEdicao";
+import { mediaNota } from "@/app/(server)/RotaAvaliacao";
 
  interface PageProps {
   searchParams: Promise<{ filtro?: string }>;
@@ -35,7 +36,16 @@ export default async function Tela_principal({ searchParams }: PageProps) {
   const data= mostrarMeusProdutos?await buscarProdutosPorProdutor(): await buscarProdutos();
   
   const listaProdutos=data?.produtos||[]
-
+ const  listaComNotas=await Promise.all(
+       listaProdutos.map(async (item) => {
+    const notaResult = await mediaNota(item.id);
+    return {
+      ...item,
+      preco: item.preco.toNumber(),
+      media: notaResult.media ?? "N/d" 
+    };
+  })
+ )
   return (
     
     <SidebarProvider >
@@ -87,15 +97,16 @@ export default async function Tela_principal({ searchParams }: PageProps) {
         </div>
 
       
-        <div className="flex flex-row flex-wrap gap-10 w-full">
-          {
-          listaProdutos?.map((item:any) => {
-            const produtos ={...item,preco: item.preco.toNumber()}
+        <div className="flex flex-row justify-center flex-wrap gap-10 w-full">
+          { 
+        
+          listaComNotas?.map((item:any) => {
+          
              return  mostrarMeusProdutos?(
                 
-             <ProdutosCardEdicao key={item.id} produto={produtos}/>
+             <ProdutosCardEdicao key={item.id} produto={item}/>
             )
-            :<ProdutosCard key={item.id} produto={produtos} />
+            :<ProdutosCard key={item.id} produto={item} />
 })}
         </div>
       </main>

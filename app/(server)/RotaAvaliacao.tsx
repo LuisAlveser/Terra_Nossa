@@ -5,9 +5,18 @@ import { obterUsuarioDoCookie } from "./RotaProdutor";
 export   async function avaliar(data:any,id_produto:number){
       try {
          const usuario = await obterUsuarioDoCookie()
+        
          if(!usuario){
             return
          }
+          const produtor =await prisma.produtor.findFirst({where:{user_id:usuario.id}})
+          if(produtor){
+            return{
+            sucesso:false,
+            error:"É impossível avaliar seu proprio produto"
+            }
+             
+          }
          const notaInt= Number(data.nota)
         const avaliacao={
             comentario:data.comentario,
@@ -44,4 +53,27 @@ export  async function buscarAvaliação(id:number){
             error:error
         }
         }
+}
+export  async function mediaNota(id_produto:number){
+    try {
+     
+       const resultado =await prisma.avaliacao.aggregate({
+        where:{id_produto:id_produto},
+        _avg:{nota:true}
+       }) 
+      
+        return{   
+           sucesso:true,
+           media:resultado._avg.nota
+        }
+       
+       
+    } catch (error) {
+         return{
+            sucesso:false,
+            error:error
+        }
+    }
+     
+
 }

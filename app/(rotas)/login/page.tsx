@@ -55,7 +55,7 @@ const{register,handleSubmit,formState:{errors}}=useForm({
           <Input className="w-70 placeholder:text-white text-white" placeholder="Email" {...register("email")}/>
             {errors.email&&<span className="text-red-600">{errors.email.message}</span>}
 
-           <Input className="w-70 placeholder:text-white text-white" placeholder="Senha" {...register("senha")}/>
+           <Input className="w-70 placeholder:text-white text-white" placeholder="Senha" type="password"{...register("senha")}/>
             {errors.senha&&<span className="text-red-600">{errors.senha.message}</span>}
 
           <Button type="submit" className="w-70 h-10 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold ">
