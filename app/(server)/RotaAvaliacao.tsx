@@ -9,8 +9,9 @@ export   async function avaliar(data:any,id_produto:number){
          if(!usuario){
             return
          }
-          const produtor =await prisma.produtor.findFirst({where:{user_id:usuario.id}})
-          if(produtor){
+          
+          const produto =await prisma.produto.findFirst({where:{id:id_produto},include:{produtor:{select:{user_id:true}}}})
+          if(produto?.produtor.user_id===usuario.id){
             return{
             sucesso:false,
             error:"É impossível avaliar seu proprio produto"

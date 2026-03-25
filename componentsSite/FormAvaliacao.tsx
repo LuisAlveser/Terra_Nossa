@@ -44,12 +44,14 @@ const voltar=()=>{
     start(async ()=>{
      const resposta=await avaliar(data,produto_id)
      if(resposta?.sucesso){
-        toast.success("Avalização feita com sucesso")
+        toast.success("Avaliação feita com sucesso")
         router.back()
         router.refresh()
      }else{
         console.log(resposta)
-        toast.error("Erro em avaliza produto")
+        toast.error(resposta?.error as string)
+        router.back()
+        router.refresh()
      }
     })
   }

@@ -125,3 +125,29 @@ export async function atualizarUsuario(data:any) {
       }
      }
 }
+export async function excluirConta(){
+     
+  try {
+         const usuario =await obterUsuarioDoCookie()
+      
+        if(!usuario){
+          return {
+            sucesso:false
+          }
+        }
+      const conta=await prisma.user.delete({where:{id:usuario.id}}) 
+      if(conta){
+        return{
+          sucesso:true,
+          mensagem:"Conta excluida com sucesso "
+        }
+      }
+
+
+     } catch (error) {
+        return{
+        succeso:false,
+        error:error
+      }
+     }
+}

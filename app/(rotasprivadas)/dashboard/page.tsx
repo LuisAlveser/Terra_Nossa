@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import  jwt  from "jsonwebtoken";
 import ProdutosCardEdicao from "../../../componentsSite/ProdutosCardEdicao";
 import { mediaNota } from "@/app/(server)/RotaAvaliacao";
-
+import {BotãoExcluir}from "@/componentsSite/BotaoAnimado"
  interface PageProps {
   searchParams: Promise<{ filtro?: string }>;
 }
@@ -39,10 +39,11 @@ export default async function Tela_principal({ searchParams }: PageProps) {
  const  listaComNotas=await Promise.all(
        listaProdutos.map(async (item) => {
     const notaResult = await mediaNota(item.id);
+    const media=notaResult.media?.toFixed(1)
     return {
       ...item,
       preco: item.preco.toNumber(),
-      media: notaResult.media ?? "N/d" 
+      media: media ?? "N/d" 
     };
   })
  )
@@ -80,9 +81,7 @@ export default async function Tela_principal({ searchParams }: PageProps) {
             </Link>
             
          
-             <Button type="submit"  className="mbs-4  w-40 h-10 md:5 cursor-pointer  backdrop-grayscale justify-center bg-white text-green-800 font-extrabold "> 
-            Excluir conta 
-             </Button>
+           <BotãoExcluir/>
       </SidebarContent>
        
      <SidebarFooter className="bg-green-800 ">
